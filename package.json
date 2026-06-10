@@ -1,6 +1,6 @@
 {
   "name": "@iamsoumikhazra/create-turbo-shadcn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Modern monorepo scaffolding CLI for Turborepo, shadcn/ui, and Tailwind CSS v4.",
   "type": "module",
   "preferGlobal": true,
@@ -41,12 +41,12 @@
     "picocolors": "^1.1.1"
   },
   "repository": {
-  "type": "git",
-  "url": "git+https://github.com/iamsoumikhazra/create-turbo-shadcn.git"
-},
-"publishConfig": {
-  "registry": "https://npm.pkg.github.com"
-},
+    "type": "git",
+    "url": "git+https://github.com/iamsoumikhazra/create-turbo-shadcn.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "homepage": "https://github.com/iamsoumikhazra/create-turbo-shadcn#readme",
   "bugs": {
     "url": "https://github.com/iamsoumikhazra/create-turbo-shadcn/issues"
