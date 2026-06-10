@@ -78,24 +78,22 @@ npm run dev
 
 # 🧩 Add shadcn Components
 
-```bash
-yarn ui:add accordion
-```
+With **npm**:
 
 ```bash
-yarn ui:add dialog
+npm run ui accordion
 ```
 
-```bash
-yarn ui:add dropdown-menu
-```
+With **pnpm**:
 
 ```bash
-yarn ui:add toast
+pnpm ui accordion
 ```
 
+With **yarn**:
+
 ```bash
-yarn ui:add sheet
+yarn ui accordion
 ```
 
 ---
@@ -193,8 +191,22 @@ export default function Home() {
 
 # 🎨 Add New Components
 
+With **npm**:
+
 ```bash
-yarn ui:add sheet
+npm run ui sheet
+```
+
+With **pnpm**:
+
+```bash
+pnpm ui sheet
+```
+
+With **yarn**:
+
+```bash
+yarn ui sheet
 ```
 
 Then use anywhere:

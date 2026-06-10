@@ -13,14 +13,14 @@ export default async function createApp(
 
   await scaffold(
     projectName,
-    options.packageManager || "yarn"
+    options.packageManager || "npm"
   );
 
   if (options.install !== false) {
-    await installDeps(root);
+    await installDeps(root, options.packageManager || "npm");
   }
 
-  await setupUI(root);
+  await setupUI(root, options.packageManager || "npm");
 
   console.log("");
 
@@ -36,12 +36,15 @@ export default async function createApp(
 
   console.log(pc.bold("Next steps:"));
 
+  const pm = (options.packageManager === "npx" ? "npm" : options.packageManager) || "npm";
+  const runCmd = pm === "npm" ? `npm run dev` : `${pm} dev`;
+
   console.log(
     `  cd ${projectName}`
   );
 
   console.log(
-    `  yarn dev`
+    `  ${runCmd}`
   );
 
   console.log("");
@@ -53,11 +56,11 @@ export default async function createApp(
   );
 
   console.log(
-    `  yarn ui:add accordion`
+    `  ${pm} ui accordion`
   );
 
   console.log(
-    `  yarn ui:add dialog dropdown-menu`
+    `  ${pm} ui dialog dropdown-menu`
   );
 
   console.log("");

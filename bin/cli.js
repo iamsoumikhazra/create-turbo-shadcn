@@ -19,7 +19,7 @@ program
   .option(
     "-p, --package-manager <manager>",
     "package manager",
-    "yarn"
+    "npm"
   )
 
   .option(

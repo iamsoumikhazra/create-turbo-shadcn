@@ -5,19 +5,27 @@ export async function scaffold(
   projectName,
   packageManager
 ) {
+  const pm = packageManager === "npx" ? "npm" : packageManager;
   log(`Creating Turborepo: ${projectName}`);
 
-  await run(
-    packageManager,
-    [
+  if (pm === "npm") {
+    await run("npx", [
+      "create-turbo@latest",
+      projectName,
+      "--package-manager",
+      "npm",
+      "--skip-install"
+    ]);
+  } else {
+    await run(pm, [
       "dlx",
       "create-turbo@latest",
       projectName,
       "--package-manager",
-      packageManager,
+      pm,
       "--skip-install"
-    ]
-  );
+    ]);
+  }
 
   ok("Turborepo created");
 }

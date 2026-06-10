@@ -1,6 +1,6 @@
 {
   "name": "@iamsoumikhazra/create-turbo-shadcn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Modern monorepo scaffolding CLI for Turborepo, shadcn/ui, and Tailwind CSS v4.",
   "type": "module",
   "preferGlobal": true,
@@ -9,6 +9,7 @@
   },
   "files": [
     "bin",
+    "src",
     "templates",
     "README.md",
     "LICENSE"

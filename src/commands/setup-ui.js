@@ -3,8 +3,10 @@ import path from "path";
 
 import { log, ok } from "../utils/logger.js";
 
-export async function setupUI(projectRoot) {
+export async function setupUI(projectRoot, packageManager = "npm") {
   log("Configuring UI");
+
+  const pm = packageManager === "npx" ? "npm" : packageManager;
 
   const uiDir = path.join(
     projectRoot,
@@ -92,7 +94,7 @@ execSync(
 
   uiPkg.scripts = {
     ...(uiPkg.scripts || {}),
-    "ui:add": "node scripts/shadcn-add.mjs"
+    "ui": "node scripts/shadcn-add.mjs"
   };
 
   await fs.writeJson(
@@ -111,10 +113,13 @@ execSync(
     rootPkgPath
   );
 
+  const workspaceCmd = pm === "npm"
+    ? `npm -w @repo/ui run ui`
+    : `${pm} workspace @repo/ui ui`;
+
   rootPkg.scripts = {
     ...(rootPkg.scripts || {}),
-    "ui:add":
-      "yarn workspace @repo/ui ui:add"
+    "ui": workspaceCmd
   };
 
   await fs.writeJson(
