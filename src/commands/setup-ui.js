@@ -43,11 +43,11 @@ export async function setupUI(projectRoot, packageManager = "npm") {
         cssVariables: true
       },
       aliases: {
-        components: "@/components",
-        utils: "@/lib/utils",
-        ui: "@/components/ui",
-        lib: "@/lib",
-        hooks: "@/hooks"
+        components: "src/components",
+        utils: "src/lib/utils",
+        ui: "src/components/ui",
+        lib: "src/lib",
+        hooks: "src/hooks"
       }
     },
     { spaces: 2 }
