@@ -456,7 +456,7 @@ export async function setupUI(projectRoot, packageManager = "npm") {
     const appPkgPath = path.join(appDir, "package.json");
     if (await fs.pathExists(appPkgPath)) {
       const appPkg = await fs.readJson(appPkgPath);
-      appPkg.dependencies = { ...(appPkg.dependencies || {}), "@repo/ui": "*" };
+      appPkg.dependencies = { ...(appPkg.dependencies || {}), "@repo/ui": "workspace:*" };
       await fs.writeJson(appPkgPath, appPkg, { spaces: 2 });
       ok(`  @repo/ui dependency added`);
     }
