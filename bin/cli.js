@@ -4,6 +4,15 @@ import { program } from "commander";
 import createApp from "../src/index.js";
 import packageJson from "../package.json" with { type: "json" };
 
+function detectPackageManager() {
+  const ua = process.env.npm_config_user_agent;
+  if (!ua) return "npm";
+  if (ua.startsWith("yarn/")) return "yarn";
+  if (ua.startsWith("pnpm/")) return "pnpm";
+  if (ua.startsWith("bun/")) return "bun";
+  return "npm";
+}
+
 program
   .name("create-turbo-shadcn")
   .description(
@@ -19,7 +28,7 @@ program
   .option(
     "-p, --package-manager <manager>",
     "package manager",
-    "npm"
+    detectPackageManager()
   )
 
   .option(

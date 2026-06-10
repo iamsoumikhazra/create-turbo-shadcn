@@ -3,6 +3,12 @@ import path from "path";
 
 import { log, ok } from "../utils/logger.js";
 
+function shadcnCmd(pm) {
+  if (pm === "bun") return "bunx --bun shadcn@latest";
+  if (pm === "npm" || pm === "yarn") return "npx shadcn@latest";
+  return `${pm} dlx shadcn@latest`;
+}
+
 export async function setupUI(projectRoot, packageManager = "npm") {
   log("Configuring UI");
 
@@ -65,7 +71,7 @@ if (!components.length) {
 }
 
 execSync(
-  \`npx shadcn@latest add \${components.join(" ")} --yes\`,
+  \`${shadcnCmd(pm)} add \${components.join(" ")} --yes\`,
   {
     stdio: "inherit"
   }
@@ -115,7 +121,9 @@ execSync(
 
   const workspaceCmd = pm === "npm"
     ? `npm -w @repo/ui run ui`
-    : `${pm} workspace @repo/ui ui`;
+    : pm === "yarn"
+    ? `yarn workspace @repo/ui ui`
+    : `${pm} --filter @repo/ui ui`;
 
   rootPkg.scripts = {
     ...(rootPkg.scripts || {}),

@@ -12,8 +12,14 @@ export async function scaffold(
     await run("npx", [
       "create-turbo@latest",
       projectName,
-      "--package-manager",
-      "npm",
+      "--package-manager", "npm",
+      "--skip-install"
+    ]);
+  } else if (pm === "bun") {
+    await run("bunx", [
+      "create-turbo@latest",
+      projectName,
+      "--package-manager", "bun",
       "--skip-install"
     ]);
   } else {
@@ -21,8 +27,7 @@ export async function scaffold(
       "dlx",
       "create-turbo@latest",
       projectName,
-      "--package-manager",
-      pm,
+      "--package-manager", pm,
       "--skip-install"
     ]);
   }

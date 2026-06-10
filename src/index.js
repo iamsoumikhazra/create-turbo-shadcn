@@ -38,6 +38,7 @@ export default async function createApp(
 
   const pm = (options.packageManager === "npx" ? "npm" : options.packageManager) || "npm";
   const runCmd = pm === "npm" ? `npm run dev` : `${pm} dev`;
+  const uiCmd = pm === "npm" ? "npm run ui" : `${pm} ui`;
 
   console.log(
     `  cd ${projectName}`
@@ -56,11 +57,11 @@ export default async function createApp(
   );
 
   console.log(
-    `  ${pm} ui accordion`
+    `  ${uiCmd} accordion`
   );
 
   console.log(
-    `  ${pm} ui dialog dropdown-menu`
+    `  ${uiCmd} dialog dropdown-menu`
   );
 
   console.log("");

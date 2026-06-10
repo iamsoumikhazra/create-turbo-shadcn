@@ -16,7 +16,7 @@ Build reusable UI systems once. Share everywhere.
 * 🧩 Shared `shadcn/ui` package
 * 🔄 Shared UI architecture
 * 📦 Workspace-ready setup
-* 🛠 Built-in `ui:add` command
+* 🛠 Built-in `ui` shortcut command
 * 🚀 Next.js apps included
 * 🧠 Auto configuration
 * 📚 Shared component exports
@@ -29,28 +29,27 @@ Build reusable UI systems once. Share everywhere.
 
 ---
 
-# 📦 Package Managers
-
-## npm
+# 📦 Usage
 
 ```bash
 npx create-turbo-shadcn my-app
 ```
 
----
-
-## Yarn
-
-```bash
-yarn create turbo-shadcn my-app
-```
-
----
-
-## pnpm
+Or with other package managers:
 
 ```bash
 pnpm create turbo-shadcn my-app
+yarn create turbo-shadcn my-app
+bun create turbo-shadcn my-app
+```
+
+Or explicitly:
+
+```bash
+create-turbo-shadcn my-app -p npm
+create-turbo-shadcn my-app -p pnpm
+create-turbo-shadcn my-app -p yarn
+create-turbo-shadcn my-app -p bun
 ```
 
 ---
@@ -59,41 +58,21 @@ pnpm create turbo-shadcn my-app
 
 ```bash
 cd my-app
-yarn dev
-```
-
-or
-
-```bash
-pnpm dev
-```
-
-or
-
-```bash
-npm run dev
+npm run dev     # npm
+yarn dev        # yarn
+pnpm dev        # pnpm
+bun dev         # bun
 ```
 
 ---
 
 # 🧩 Add shadcn Components
 
-With **npm**:
-
 ```bash
-npm run ui accordion
-```
-
-With **pnpm**:
-
-```bash
-pnpm ui accordion
-```
-
-With **yarn**:
-
-```bash
-yarn ui accordion
+npm run ui accordion     # npm
+yarn ui accordion        # yarn
+pnpm ui accordion        # pnpm
+bun ui accordion         # bun
 ```
 
 ---
@@ -135,7 +114,7 @@ my-app/
 │
 ├── turbo.json
 ├── package.json
-└── yarn.lock
+└── [lockfile]
 ```
 
 ---
@@ -191,22 +170,11 @@ export default function Home() {
 
 # 🎨 Add New Components
 
-With **npm**:
-
 ```bash
-npm run ui sheet
-```
-
-With **pnpm**:
-
-```bash
-pnpm ui sheet
-```
-
-With **yarn**:
-
-```bash
-yarn ui sheet
+npm run ui sheet         # npm
+yarn ui sheet            # yarn
+pnpm ui sheet            # pnpm
+bun ui sheet             # bun
 ```
 
 Then use anywhere:
@@ -219,13 +187,22 @@ import { Sheet } from "@repo/ui";
 
 # ⚙ CLI Options
 
+## Auto-detection
+
+The package manager is automatically detected from the parent command:
+
+```bash
+pnpm create turbo-shadcn my-app    # auto-detects pnpm
+yarn create turbo-shadcn my-app    # auto-detects yarn
+bun create turbo-shadcn my-app     # auto-detects bun
+npx create-turbo-shadcn my-app     # auto-detects npm
+```
+
 ## Help
 
 ```bash
 npx create-turbo-shadcn --help
 ```
-
----
 
 ## Version
 
@@ -233,15 +210,14 @@ npx create-turbo-shadcn --help
 npx create-turbo-shadcn --version
 ```
 
----
-
-## Package Manager
+## Package Manager (explicit)
 
 ```bash
-npx create-turbo-shadcn my-app --package-manager pnpm
+npx create-turbo-shadcn my-app -p pnpm
+npx create-turbo-shadcn my-app -p yarn
+npx create-turbo-shadcn my-app -p bun
+npx create-turbo-shadcn my-app -p npm
 ```
-
----
 
 ## Skip Install
 
@@ -272,7 +248,7 @@ npm install
 Link CLI locally:
 
 ```bash
-npm link
+npm link --force
 ```
 
 Test locally:
@@ -309,7 +285,7 @@ create-turbo-shadcn test-app
 * [ ] Biome support
 * [ ] Remote template registry
 * [ ] AI-assisted scaffolding
-* [ ] Bun support
+* [x] Bun support
 * [ ] React Native templates
 * [ ] Authentication templates
 
