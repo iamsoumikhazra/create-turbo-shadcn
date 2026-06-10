@@ -152,7 +152,7 @@ async function runShadcn() {
       }
 
       try {
-        execSync(cmd, { cwd: UI_ROOT, stdio: "inherit" });
+        execSync(cmd, { cwd: UI_ROOT, stdio: "inherit", env: { ...process.env, PNPM_IGNORE_WORKSPACE_ROOT_CHECK: "true", npm_config_lockfile: "false" } });
         _ok(\`shadcn add succeeded with \${ver}\`);
         return;
       } catch (err) {
@@ -302,6 +302,14 @@ export async function setupUI(projectRoot, packageManager = "npm") {
   await fs.ensureDir(path.join(uiDir, "src/styles"));
   await fs.ensureDir(path.join(uiDir, "src/hooks"));
   await fs.ensureDir(path.join(uiDir, "scripts"));
+
+  // Write .npmrc to isolate packages/ui from workspace during shadcn add
+  await fs.writeFile(
+    path.join(uiDir, ".npmrc"),
+    "ignore-workspace-root-check=true\nshared-workspace-lockfile=false\nlockfile=false\n",
+    "utf8"
+  );
+  ok(".npmrc written");
 
   // ── Install Tailwind v4 + shadcn deps in packages/ui ────────────────
   log("Installing Tailwind v4 & shadcn dependencies");
