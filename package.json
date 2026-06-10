@@ -5,7 +5,7 @@
   "type": "module",
   "preferGlobal": true,
   "bin": {
-    "create-turbo-shadcn": "./bin/cli.js"
+    "create-turbo-shadcn": "bin/cli.js"
   },
   "files": [
     "bin",
