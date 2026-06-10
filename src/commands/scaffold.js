@@ -8,11 +8,11 @@ export async function scaffold(
   const pm = packageManager === "npx" ? "npm" : packageManager;
   log(`Creating Turborepo: ${projectName}`);
 
-  if (pm === "npm") {
+  if (pm === "npm" || pm === "yarn") {
     await run("npx", [
       "create-turbo@latest",
       projectName,
-      "--package-manager", "npm",
+      "--package-manager", pm,
       "--skip-install"
     ]);
   } else if (pm === "bun") {
@@ -23,11 +23,11 @@ export async function scaffold(
       "--skip-install"
     ]);
   } else {
-    await run(pm, [
+    await run("pnpm", [
       "dlx",
       "create-turbo@latest",
       projectName,
-      "--package-manager", pm,
+      "--package-manager", "pnpm",
       "--skip-install"
     ]);
   }
