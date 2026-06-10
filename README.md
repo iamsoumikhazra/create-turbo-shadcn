@@ -1,3 +1,6 @@
+![npm](https://img.shields.io/npm/v/create-turbo-shadcn)
+![downloads](https://img.shields.io/npm/dm/create-turbo-shadcn)
+![license](https://img.shields.io/npm/l/create-turbo-shadcn)
 # 🚀 create-turbo-shadcn
 
 Production-ready CLI for scaffolding scalable Turborepo monorepos with shared `shadcn/ui`, Tailwind CSS v4, and modern workspace architecture.
