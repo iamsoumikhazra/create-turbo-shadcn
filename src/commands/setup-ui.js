@@ -5,8 +5,8 @@ import { run } from "../utils/exec.js";
 import { log, ok, warn } from "../utils/logger.js";
 
 function shadcnBinary(pm) {
-  if (pm === "bun") return "bunx --bun ${ver}";
-  if (pm === "npm" || pm === "yarn") return "npx ${ver}";
+  if (pm === "bun") return `bunx --bun \${ver}`;
+  if (pm === "npm" || pm === "yarn") return `npx \${ver}`;
   return `${pm} dlx \${ver}`;
 }
 
@@ -78,6 +78,17 @@ export function cn(...inputs: ClassValue[]) {
 `;
 
 function shadcnAddScript(pm) {
+  let peerInstallCmd;
+  if (pm === "pnpm") {
+    peerInstallCmd = `${pm} install --ignore-workspace`;
+  } else if (pm === "bun") {
+    peerInstallCmd = `bun install`;
+  } else {
+    peerInstallCmd = `${pm} install`;
+  }
+
+  const usagePm = pm === "npm" ? "npm run ui" : pm === "yarn" ? "yarn ui" : `${pm} ui`;
+
   return `#!/usr/bin/env node
 // packages/ui/scripts/shadcn-add.mjs
 // Wraps npx shadcn@latest add and automatically:
@@ -99,9 +110,9 @@ const LIB_DIR = join(UI_ROOT, "src/lib");
 
 const components = process.argv.slice(2);
 if (components.length === 0) {
-  console.error("Usage: yarn ui:add <component> [component2 ...]");
-  console.error("  e.g. yarn ui:add button");
-  console.error("  e.g. yarn ui:add dialog dropdown-menu toast");
+  console.error("Usage: ${usagePm}:add <component> [component2 ...]");
+  console.error("  e.g. ${usagePm}:add button");
+  console.error("  e.g. ${usagePm}:add dialog dropdown-menu toast");
   process.exit(1);
 }
 
@@ -136,7 +147,7 @@ async function runShadcn() {
   const RETRY_DELAY = 3000;
 
   for (const ver of versions) {
-    const cmd = \`${shadcnBinary(pm)} add \${components.join(" ")} --yes --cwd "\${UI_ROOT}"\`;
+    const cmd = \`${shadcnBinary(pm)} add \${components.join(" ")} --yes\`;
 
     for (let attempt = 1; attempt <= RETRIES; attempt++) {
       _log(\`Attempt \${attempt}/\${RETRIES} — \${cmd}\`);
@@ -176,7 +187,7 @@ async function runShadcn() {
     }
   }
 
-  console.error(\`\\n  ✗  Could not add components. Once online, run:\\n\\n    cd packages/ui && yarn ui:add \${components.join(" ")}\\n  \`);
+  console.error(\`\\n  ✗  Could not add components. Once online, run:\\n\\n    cd packages/ui && ${usagePm}:add \${components.join(" ")}\\n  \`);
   process.exit(1);
 }
 
@@ -185,7 +196,7 @@ await runShadcn();
 // Install missing peer deps
 _log("Installing any missing peer dependencies...");
 try {
-  execSync(\`\${pm === "npm" ? "npm install" : pm + " install"}\`, { cwd: UI_ROOT, stdio: "inherit" });
+  execSync(\`${peerInstallCmd}\`, { cwd: UI_ROOT, stdio: "inherit" });
   _ok("Peer dependencies installed");
 } catch {
   _warn("Install failed — you may need to run it manually");
@@ -464,7 +475,7 @@ export async function setupUI(projectRoot, packageManager = "npm") {
     const appPkgPath = path.join(appDir, "package.json");
     if (await fs.pathExists(appPkgPath)) {
       const appPkg = await fs.readJson(appPkgPath);
-      appPkg.dependencies = { ...(appPkg.dependencies || {}), "@repo/ui": "workspace:*" };
+      appPkg.dependencies = { ...(appPkg.dependencies || {}), "@repo/ui": pm === "pnpm" ? "workspace:*" : "*" };
       await fs.writeJson(appPkgPath, appPkg, { spaces: 2 });
       ok(`  @repo/ui dependency added`);
     }
