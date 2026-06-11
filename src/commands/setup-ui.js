@@ -78,13 +78,14 @@ export function cn(...inputs: ClassValue[]) {
 `;
 
 function shadcnAddScript(pm) {
-  let peerInstallCmd;
+  let peerInstallBlock;
   if (pm === "pnpm") {
-    peerInstallCmd = `${pm} install --ignore-workspace`;
-  } else if (pm === "bun") {
-    peerInstallCmd = `bun install`;
+    // shadcn add already installs deps — skip workspace install to avoid
+    // ERR_PNPM_WORKSPACE_PKG_NOT_FOUND for dev workspace deps like @repo/eslint-config
+    peerInstallBlock = `// shadcn add already installed all peer deps — skipping redundant install`;
   } else {
-    peerInstallCmd = `${pm} install`;
+    const installCmd = pm === "bun" ? "bun install" : `${pm} install`;
+    peerInstallBlock = `  execSync(\`${installCmd}\`, { cwd: UI_ROOT, stdio: "inherit" });\n  _ok("Peer dependencies installed");`;
   }
 
   const usagePm = pm === "npm" ? "npm run ui" : pm === "yarn" ? "yarn ui" : `${pm} ui`;
@@ -196,8 +197,7 @@ await runShadcn();
 // Install missing peer deps
 _log("Installing any missing peer dependencies...");
 try {
-  execSync(\`${peerInstallCmd}\`, { cwd: UI_ROOT, stdio: "inherit" });
-  _ok("Peer dependencies installed");
+${peerInstallBlock}
 } catch {
   _warn("Install failed — you may need to run it manually");
 }
